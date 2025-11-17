@@ -109,7 +109,7 @@ with mujoco.viewer.launch_passive(model, data) as viewer:
 
                 prev_leg_ind = curr_leg_ind
                 print("Delta vec for wt shift is", deltavec_wt)
-                target_ctrl = spy.in_body_inv_kinem(deltavec_wt[0], deltavec_wt[1], deltavec_wt[2], np.copy(data.qpos))
+                target_ctrl = spy.in_body_inv_kinem(deltavec_wt[0], deltavec_wt[1],     deltavec_wt[2], np.copy(data.qpos))
                 
                 for i in range(4):
                     legsss = ["FR", "BR", "FL", "BL"]

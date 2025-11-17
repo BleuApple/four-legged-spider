@@ -149,9 +149,9 @@ class SpiderRobotMath:
 
         # Getting Relative Coordinates
         FR_pos_ = self.leg_fwd_kinem(curr_qpos[7],  curr_qpos[8],  curr_qpos[9])
-        BR_pos_ = self.leg_fwd_kinem(curr_qpos[10], curr_qpos[11], curr_qpos[12])
-        FL_pos_ = self.leg_fwd_kinem(curr_qpos[13], curr_qpos[14], curr_qpos[15])
-        BL_pos_ = self.leg_fwd_kinem(curr_qpos[16], curr_qpos[17], curr_qpos[18])
+        FL_pos_ = self.leg_fwd_kinem(curr_qpos[10], curr_qpos[11], curr_qpos[12])
+        BL_pos_ = self.leg_fwd_kinem(curr_qpos[13], curr_qpos[14], curr_qpos[15])
+        BR_pos_ = self.leg_fwd_kinem(curr_qpos[16], curr_qpos[17], curr_qpos[18])
 
         if to_print:
             print("calculating in body inv kinem")
@@ -187,11 +187,11 @@ class SpiderRobotMath:
             print("BL_fwd:", self.leg_fwd_kinem(BL_ctrl[0], BL_ctrl[1], BL_ctrl[2]))
             print("BR_fwd:", self.leg_fwd_kinem(BR_ctrl[0], BR_ctrl[1], BR_ctrl[2]))
 
-        ctrl_params = [FR_ctrl, BR_ctrl, FL_ctrl, BL_ctrl]
+        ctrl_params = [FR_ctrl, FL_ctrl, BL_ctrl, BR_ctrl]
 
         return ctrl_params
     
-    def stable_centre_coords_old(self, curr_qpos=None, leg_index=None,to_print=False):
+    def stable_centre_coords(self, curr_qpos=None, leg_index=None,to_print=False):
         """Returns according to leg indices """
 
         if curr_qpos is None: curr_qpos = self.qpos
@@ -200,9 +200,9 @@ class SpiderRobotMath:
 
         # Getting Relative Coordinates
         FR_pos_ = self.leg_fwd_kinem(curr_qpos[7],  curr_qpos[8],  curr_qpos[9])
-        BR_pos_ = self.leg_fwd_kinem(curr_qpos[10], curr_qpos[11], curr_qpos[12])
-        FL_pos_ = self.leg_fwd_kinem(curr_qpos[13], curr_qpos[14], curr_qpos[15])
-        BL_pos_ = self.leg_fwd_kinem(curr_qpos[16], curr_qpos[17], curr_qpos[18])
+        FL_pos_ = self.leg_fwd_kinem(curr_qpos[10], curr_qpos[11], curr_qpos[12])
+        BL_pos_ = self.leg_fwd_kinem(curr_qpos[13], curr_qpos[14], curr_qpos[15])
+        BR_pos_ = self.leg_fwd_kinem(curr_qpos[16], curr_qpos[17], curr_qpos[18])
 
         # Rotation Function
         rota = lambda x, y, z, leg_index : np.array([[np.cos(np.deg2rad(90 * leg_index - 45)), -np.sin(np.deg2rad(90 * leg_index - 45)), 0],\
@@ -212,9 +212,9 @@ class SpiderRobotMath:
 
         # Rotate then add
         FR_pos = rota(FR_pos_[0], FR_pos_[1], FR_pos_[2], 1) + np.array([[ self.b * 0.5],[ self.b * 0.5],[0]])
-        BR_pos = rota(BR_pos_[0], BR_pos_[1], BR_pos_[2], 4) + np.array([[ self.b * 0.5],[-self.b * 0.5],[0]])
         FL_pos = rota(FL_pos_[0], FL_pos_[1], FL_pos_[2], 2) + np.array([[-self.b * 0.5],[ self.b * 0.5],[0]])
         BL_pos = rota(BL_pos_[0], BL_pos_[1], BL_pos_[2], 3) + np.array([[-self.b * 0.5],[-self.b * 0.5],[0]])
+        BR_pos = rota(BR_pos_[0], BR_pos_[1], BR_pos_[2], 4) + np.array([[ self.b * 0.5],[-self.b * 0.5],[0]])
 
         pos_sum = FR_pos + BR_pos + FL_pos + BL_pos
 
@@ -232,19 +232,19 @@ class SpiderRobotMath:
         """
         stable_centres = np.array([pos_sum - FR_pos + np.array([[BL_pos[0][0]], [BL_pos[1][0]], [0]]) * nth ,\
                                    pos_sum - FL_pos + np.array([[BR_pos[0][0]], [BR_pos[1][0]], [0]]) * nth ,\
-                                   pos_sum - BR_pos + np.array([[FL_pos[0][0]], [FL_pos[1][0]], [0]]) * nth ,\
-                                   pos_sum - BL_pos + np.array([[FR_pos[0][0]], [FR_pos[1][0]], [0]]) * nth ]) / 3
+                                   pos_sum - BL_pos + np.array([[FR_pos[0][0]], [FR_pos[1][0]], [0]]) * nth ,\
+                                   pos_sum - BR_pos + np.array([[FL_pos[0][0]], [FL_pos[1][0]], [0]]) * nth ]) / 3
 
         if to_print:
             print("Stable centre coords prints")
             print("FR_pos:", FR_pos.flatten())
             print("FL_pos:", FL_pos.flatten())
-            print("BR_pos:", BR_pos.flatten())
             print("BL_pos:", BL_pos.flatten())
+            print("BR_pos:", BR_pos.flatten())
             print("FR_pos_:", FR_pos_)
             print("FL_pos_:", FL_pos_)
             print("BR_pos_:", BR_pos_)
-            print("BL_pos_:", BL_pos_)
+            print("BL_pos_:", BL_pos_)x
 
             print("current centre is", current_centre)
             print("stable centres is", stable_centres)
@@ -255,7 +255,7 @@ class SpiderRobotMath:
         return stable_centres[leg_index - 1], current_centre
 
  
-    def stable_centre_coords(self, curr_qpos=None, leg_index=None, to_print=False, epsilon=0.1):
+    def stable_centre_coords_idk(self, curr_qpos=None, leg_index=None, to_print=False, epsilon=0.1):
         """Returns according to leg indices, with closest point to COM inside support triangle 
         that is at least epsilon away from edges"""
         
@@ -265,9 +265,9 @@ class SpiderRobotMath:
 
         # Getting Relative Coordinates
         FR_pos_ = self.leg_fwd_kinem(curr_qpos[7],  curr_qpos[8],  curr_qpos[9])
-        BR_pos_ = self.leg_fwd_kinem(curr_qpos[10], curr_qpos[11], curr_qpos[12])
-        FL_pos_ = self.leg_fwd_kinem(curr_qpos[13], curr_qpos[14], curr_qpos[15])
-        BL_pos_ = self.leg_fwd_kinem(curr_qpos[16], curr_qpos[17], curr_qpos[18])
+        FL_pos_ = self.leg_fwd_kinem(curr_qpos[10], curr_qpos[11], curr_qpos[12])
+        BL_pos_ = self.leg_fwd_kinem(curr_qpos[13], curr_qpos[14], curr_qpos[15])
+        BR_pos_ = self.leg_fwd_kinem(curr_qpos[16], curr_qpos[17], curr_qpos[18])
 
         # Rotation Function
         rota = lambda x, y, z, leg_index : np.array([[np.cos(np.deg2rad(90 * leg_index - 45)), -np.sin(np.deg2rad(90 * leg_index - 45)), 0],\
@@ -277,9 +277,9 @@ class SpiderRobotMath:
 
         # Rotate then add
         FR_pos = rota(FR_pos_[0], FR_pos_[1], FR_pos_[2], 1) + np.array([[ self.b * 0.5],[ self.b * 0.5],[0]])
-        BR_pos = rota(BR_pos_[0], BR_pos_[1], BR_pos_[2], 4) + np.array([[ self.b * 0.5],[-self.b * 0.5],[0]])
         FL_pos = rota(FL_pos_[0], FL_pos_[1], FL_pos_[2], 2) + np.array([[-self.b * 0.5],[ self.b * 0.5],[0]])
         BL_pos = rota(BL_pos_[0], BL_pos_[1], BL_pos_[2], 3) + np.array([[-self.b * 0.5],[-self.b * 0.5],[0]])
+        BR_pos = rota(BR_pos_[0], BR_pos_[1], BR_pos_[2], 4) + np.array([[ self.b * 0.5],[-self.b * 0.5],[0]])
 
         pos_sum = FR_pos + BR_pos + FL_pos + BL_pos
         current_centre = pos_sum / 4
@@ -288,8 +288,8 @@ class SpiderRobotMath:
         support_triangles = [
             [FL_pos, BL_pos, BR_pos],  # Triangle for FR leg (opposite vertices)
             [FR_pos, BR_pos, BL_pos],  # Triangle for FL leg  
-            [FL_pos, FR_pos, BL_pos],  # Triangle for BR leg
             [FR_pos, FL_pos, BR_pos]   # Triangle for BL leg
+            [FL_pos, FR_pos, BL_pos],  # Triangle for BR leg
         ]
         
         def point_to_line_distance(point, line_p1, line_p2):
@@ -405,12 +405,12 @@ class SpiderRobotMath:
             print("Stable centre coords prints")
             print("FR_pos:", FR_pos.flatten())
             print("FL_pos:", FL_pos.flatten())
-            print("BR_pos:", BR_pos.flatten())
             print("BL_pos:", BL_pos.flatten())
+            print("BR_pos:", BR_pos.flatten())
             print("FR_pos_:", FR_pos_)
             print("FL_pos_:", FL_pos_)
-            print("BR_pos_:", BR_pos_)
             print("BL_pos_:", BL_pos_)
+            print("BR_pos_:", BR_pos_)
             print("current centre is", current_centre)
             print("stable centres is", stable_centres)
 
