@@ -244,7 +244,7 @@ class SpiderRobotMath:
             print("FR_pos_:", FR_pos_)
             print("FL_pos_:", FL_pos_)
             print("BR_pos_:", BR_pos_)
-            print("BL_pos_:", BL_pos_)x
+            print("BL_pos_:", BL_pos_)
 
             print("current centre is", current_centre)
             print("stable centres is", stable_centres)
