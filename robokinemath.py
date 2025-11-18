@@ -101,11 +101,13 @@ class SpiderRobotMath:
 
         return self.leg_inv_kinem(x_, y_, z)
     
-    def in_body_inv_kinem(self, dx:float, dy:float, dz:float, curr_qpos=None,to_print=False):
+    def in_body_inv_kinem(self, body_dx:float, body_dy:float, body_dz:float, curr_qpos=None,to_print=False):
         """Returns ctrl param order format"""
         if curr_qpos is None: curr_qpos = self.qpos
         curr_qpos = np.copy(curr_qpos)
         #print("dx, dy, dz", dx, dy, dz)
+        dx, dy, dz = -body_dx, -body_dy, -body_dz # convert body movement to how legs should actuall move
+
 
         # Getting Relative Coordinates
         FR_pos_ = self.leg_fwd_kinem(curr_qpos[7],  curr_qpos[8],  curr_qpos[9])
@@ -135,6 +137,13 @@ class SpiderRobotMath:
             print("FL_pos:", FL_pos)
             print("BL_pos:", BL_pos)
             print("BR_pos:", BR_pos)
+
+        FR_pos[2] = -1 * FR_pos[2] if FR_pos[2] < 0 else FR_pos[2]
+        FL_pos[2] = -1 * FL_pos[2] if FL_pos[2] < 0 else FL_pos[2]
+        BL_pos[2] = -1 * BL_pos[2] if BL_pos[2] < 0 else BL_pos[2]
+        BR_pos[2] = -1 * BR_pos[2] if BR_pos[2] < 0 else BR_pos[2]
+
+
 
         FR_ctrl = self.leg_inv_kinem(FR_pos[0], FR_pos[1], FR_pos[2])
         FL_ctrl = self.leg_inv_kinem(FL_pos[0], FL_pos[1], FL_pos[2])

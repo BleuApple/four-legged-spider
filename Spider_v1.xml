@@ -18,16 +18,19 @@
     <!-- Spider Body -->
     <body pos = "0 0 0">
       <joint type = "free"/>
-      <geom type = "box" size = "1 1 0.05" rgba = "0 0.2 1 1" mass = "0.2"/>
+      <geom type = "box" size = "1 1 0.05" rgba = "0 0.2 1 1" mass = "0.4"/>
 
       <!-- Front Right Leg-->
       <body pos = "1 1 0" axisangle = "0 0 1 -45">
         <joint axis = "0 0 1" range = "-135 135" name = "FR z" damping = "20"/>
         <joint axis = "1 0 0" range = "-135 170" name = "FR shoulder" damping = "20"/>
-        <geom type = "capsule" size = "0.1" fromto ="0 0 0  0 3 0" rgba = "1 0 1 1" mass = "0.005"/>
+        <geom type = "capsule" size = "0.1" fromto ="0 0 0  0 3 0" rgba = "1 0 1 1" mass = "0.05"/>
         <body pos = "0 3 0" axisangle = "0 0 1 90">
           <joint axis = "0 -1 0" range = "-170 170" name = "FR knee" damping = "20"/>
-          <geom type = "capsule" size = "0.1" fromto ="0 0 0  4 0 0" rgba = "0 1 1 1" mass = "0.003" friction = "3.5"/>
+          <geom type = "capsule" size = "0.1" fromto ="0 0 0  4 0 0" rgba = "0 1 1 1" mass = "0.03" friction = "3.5"/>
+          <body pos = "4 0 0"  name =  "FR foot" >
+            <geom type = "sphere" size = "0.101" mass = "0" contype="0" conaffinity="0"/>
+          </body>
         </body>
       </body>
 
@@ -39,6 +42,9 @@
         <body pos = "0 3 0" axisangle = "0 0 1 90">
           <joint axis = "0 -1 0" range = "-170 170" name = "FL knee" damping = "20"/>
           <geom type = "capsule" size = "0.1" fromto ="0 0 0  4 0 0" rgba = "0 1 1 1" mass = "0.03" friction = "3.5"/>
+          <body pos = "4 0 0"  name =  "FL foot" >
+            <geom type = "sphere" size = "0.101" mass = "0" contype="0" conaffinity="0"/>
+          </body>
         </body>
       </body>
 
@@ -50,6 +56,9 @@
         <body pos = "0 -3 0" axisangle = "0 0 1 -90">
           <joint axis = "0 -1 0" range = "-170 170" name = "BL knee" damping = "20"/>
           <geom type = "capsule" size = "0.1" fromto ="0 0 0  4 0 0" rgba = "0 1 1 1" mass = "0.03" friction = "3.5"/>
+          <body pos = "4 0 0"  name =  "BL foot" >
+            <geom type = "sphere" size = "0.101" mass = "0" contype="0" conaffinity="0"/>
+          </body>
         </body>
       </body>
       
@@ -61,6 +70,9 @@
         <body pos = "0 -3 0" axisangle = "0 0 1 -90">
           <joint axis = "0 -1 0" range = "-170 170" name = "BR knee" damping = "20"/>
           <geom type = "capsule" size = "0.1" fromto ="0 0 0  4 0 0" rgba = "0 1 1 1" mass = "0.03" friction = "3.5"/>
+          <body pos = "4 0 0"  name =  "BR foot" >
+            <geom type = "sphere" size = "0.101" mass = "0" contype="0" conaffinity="0"/>
+          </body>
         </body>
       </body>
 
@@ -71,7 +83,7 @@
 <keyframe>
   <key
   time="0"
-  qpos="0 0 0 1 0 0 0 0.0 0.90807 -2.24592 0.0 0.90807 -2.24592 0.0 0.90807 -2.24592 0.0 0.90807 -2.24592"
+  qpos="0 0 0 1 0 0 0 0 1.14208 -2.52352 0 1.14208 -2.52352  0 1.14208 -2.52352  0 1.14208 -2.52352 "
   qvel="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0"
   name="start_pose"
   />
@@ -89,15 +101,16 @@
   <position joint="FL shoulder" ctrlrange="-2.35 2.95"    kp="100"/>
   <position joint="FL knee" ctrlrange="-2.95 2.95"        kp="100"/>
 
+  <!-- Back Left Leg -->
+  <position  joint="BL z" ctrlrange="-2.35 2.35"          kp="100"/>
+  <position  joint="BL shoulder" ctrlrange="-2.35 2.95"   kp="100"/>
+  <position  joint="BL knee" ctrlrange="-2.95 2.95"       kp="100"/>
+  
   <!-- Back Right Leg -->
   <position joint="BR z" ctrlrange="-2.35 2.35"           kp="100"/>
   <position joint="BR shoulder" ctrlrange="-2.35 2.95"    kp="100"/>
   <position joint="BR knee" ctrlrange="-2.95 2.95"        kp="100"/>
 
-  <!-- Back Left Leg -->
-  <position  joint="BL z" ctrlrange="-2.35 2.35"          kp="100"/>
-  <position  joint="BL shoulder" ctrlrange="-2.35 2.95"   kp="100"/>
-  <position  joint="BL knee" ctrlrange="-2.95 2.95"       kp="100"/>
 </actuator>
   
 
