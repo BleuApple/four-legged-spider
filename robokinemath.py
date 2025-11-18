@@ -235,5 +235,3 @@ if __name__ == "__main__":
 
     print(180*np.array(spy.leg_inv_kinem(3, 0, -2))/math.pi)
     print(spy.leg_fwd_kinem(0.0, -1.176005207095135, 0.9272952180016121))
-
-
